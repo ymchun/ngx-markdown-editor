@@ -1,0 +1,12 @@
+<mat-nav-list dense class="ngx-markdown-editor-mentions" *ngIf="hasResult">
+	<a
+		mat-list-item
+		*ngFor="let item of items; let i = index"
+		class="ngx-markdown-editor-mentions__item"
+		[class.ngx-markdown-editor-mentions__item--active]="activeIndex === i"
+		(click)="onClick(i)"
+	>
+		<ng-container *ngTemplateOutlet="template ? template : defaultTemplate; context: { item: item }"></ng-container>
+		<ng-template #defaultTemplate>{{item}}</ng-template>
+	</a>
+</mat-nav-list>

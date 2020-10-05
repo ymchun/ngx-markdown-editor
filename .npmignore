@@ -1,0 +1,14 @@
+.editorconfig
+.eslintrc.json
+.gitignore
+.snyk
+.travis.yml
+.vscode
+angular.json
+cspell.json
+node_modules
+package-lock.json
+package.json
+projects
+publish.sh
+tsconfig.json

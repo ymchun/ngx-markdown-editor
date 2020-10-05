@@ -1,0 +1,12 @@
+.ngx-markdown-editor-mentions {
+	background-color: #fff;
+	border: 1px #ccc solid;
+
+	&__item {
+		user-select: none;
+
+		&--active {
+			background-color: #eee;;
+		}
+	}
+}

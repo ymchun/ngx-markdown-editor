@@ -1,0 +1,17 @@
+{
+    "version": "0.1",
+    "ignorePaths": [
+        ".vscode",
+        "**/.git/objects/**",
+        "**/node_modules/**",
+        "**/package-lock.json",
+        "**/package.json",
+        "dist"
+    ],
+    "language": "en",
+    "words": [
+        "arrowdown",
+        "arrowup",
+        "ymchun"
+    ]
+}

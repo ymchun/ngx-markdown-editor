@@ -1,0 +1,28 @@
+{
+  "name": "@ymchun/ngx-markdown-editor",
+  "version": "1.0.0",
+  "description": "A simple markdown editor component for Angular",
+  "keywords": [
+    "angular",
+    "markdown",
+    "editor"
+  ],
+  "homepage": "github:ymchun/ics",
+  "bugs": {
+    "url": "https://github.com/ymchun/ngx-markdown-editor/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Jean M.C.",
+    "url": "https://github.com/ymchun"
+  },
+  "peerDependencies": {
+    "@angular/cdk": "^10.2.3",
+    "@angular/common": "^10.1.4",
+    "@angular/core": "^10.1.4",
+    "@angular/forms": "^10.1.4",
+    "@angular/material": "^10.2.3",
+    "markdown-it": "^11.0.1",
+    "markdown-it-task-lists": "^2.1.1"
+  }
+}

@@ -1,0 +1,23 @@
+language: node_js
+node_js:
+  - "12.13"
+install:
+  - npm install
+script:
+  - npm run lint
+  - npm run spell:check
+  - npm run snyk-protect
+  - npm run snyk-test
+before_deploy:
+  - npm run build
+  - cd dist/ngx-markdown-editor
+  - cp ../../{README.md,LICENSE} .
+deploy:
+  edge: true
+  provider: npm
+  email: "$email"
+  api_key: "$npm_token"
+  cleanup: false
+  on:
+    tags: true
+    repo: ymchun/ngx-markdown-editor
