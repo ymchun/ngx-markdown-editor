@@ -1,10 +1,21 @@
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { Component, ComponentRef, ElementRef, EventEmitter, forwardRef, HostListener, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import {
+	Component,
+	ComponentRef,
+	ElementRef,
+	EventEmitter,
+	forwardRef,
+	HostListener,
+	Input,
+	OnDestroy,
+	OnInit,
+	Output,
+	ViewChild,
+} from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Subscription, timer } from 'rxjs';
 import { debounce } from 'rxjs/operators';
-
 import { CursorPosition } from '../interfaces/cursor-position';
 import { EditorHistory } from '../interfaces/editor-history';
 import { MentionConfig } from '../interfaces/mention-config';
@@ -21,7 +32,7 @@ import { NgxMarkdownMentionDirective } from '../mentions/ngx-markdown-mention.di
 		},
 	],
 	selector: 'ngx-markdown-editor',
-	styleUrls: [ './ngx-markdown-editor.scss' ],
+	styleUrls: ['./ngx-markdown-editor.scss'],
 	templateUrl: './ngx-markdown-editor.view.html',
 })
 export class NgxMarkdownEditorComponent implements OnInit, OnDestroy, ControlValueAccessor {
@@ -77,43 +88,42 @@ export class NgxMarkdownEditorComponent implements OnInit, OnDestroy, ControlVal
 
 	private controlSubscription: Subscription;
 
-	public constructor(
-		private overlay: Overlay,
-	) {}
+	public constructor(private overlay: Overlay) {}
 
-	@HostListener('document:keydown', [ '$event' ])
+	@HostListener('document:keydown', ['$event'])
 	public keyboardEvent(event: KeyboardEvent): void {
 		// get key press
 		const key = (event.key || '').toLowerCase();
 		// check action
 		switch (key) {
-		case 'escape': {
-			if (this.isFullscreen && !this.isOpenedMentionMenu) {
-				this.fullscreen();
-			}
-			break;
-		}
-		case 'z': {
-			if (this.historySteps > 0 && (event.ctrlKey || event.metaKey)) {
-				if (event.shiftKey) {
-					this.redo();
-				} else {
-					this.undo();
+			case 'escape': {
+				if (this.isFullscreen && !this.isOpenedMentionMenu) {
+					this.fullscreen();
 				}
-				// prevent the default undo/redo handling
-				event.preventDefault();
-				event.stopPropagation();
+				break;
 			}
-			break;
-		}
-		case 'arrowdown': /* cspell: disable-line */
-		case 'arrowleft': /* cspell: disable-line */
-		case 'arrowright': /* cspell: disable-line */
-		case 'arrowup': { /* cspell: disable-line */
-			// update cursor
-			this.updateCursor();
-			break;
-		}
+			case 'z': {
+				if (this.historySteps > 0 && (event.ctrlKey || event.metaKey)) {
+					if (event.shiftKey) {
+						this.redo();
+					} else {
+						this.undo();
+					}
+					// prevent the default undo/redo handling
+					event.preventDefault();
+					event.stopPropagation();
+				}
+				break;
+			}
+			case 'arrowdown': /* cspell: disable-line */
+			case 'arrowleft': /* cspell: disable-line */
+			case 'arrowright': /* cspell: disable-line */
+			case 'arrowup': {
+				/* cspell: disable-line */
+				// update cursor
+				this.updateCursor();
+				break;
+			}
 		}
 	}
 
@@ -286,7 +296,9 @@ export class NgxMarkdownEditorComponent implements OnInit, OnDestroy, ControlVal
 		} else {
 			// create overlay
 			this.fullScreenOverlayRef = this.overlay.create();
-			this.fullScreenComponentRef = this.fullScreenOverlayRef.attach(new ComponentPortal(NgxMarkdownEditorComponent));
+			this.fullScreenComponentRef = this.fullScreenOverlayRef.attach(
+				new ComponentPortal(NgxMarkdownEditorComponent),
+			);
 
 			this.fullScreenComponentRef.onDestroy(() => {
 				// set editor selection
@@ -409,11 +421,7 @@ export class NgxMarkdownEditorComponent implements OnInit, OnDestroy, ControlVal
 		const value = this.markdown.value as string;
 
 		// construct string
-		const result = ''.concat(
-			value.substring(0, start),
-			`**${value.substring(start, end)}**`,
-			value.substr(end),
-		);
+		const result = ''.concat(value.substring(0, start), `**${value.substring(start, end)}**`, value.substr(end));
 
 		// update editor
 		this.markdown.setValue(result);
@@ -431,11 +439,7 @@ export class NgxMarkdownEditorComponent implements OnInit, OnDestroy, ControlVal
 		const value = this.markdown.value as string;
 
 		// construct string
-		const result = ''.concat(
-			value.substring(0, start),
-			`*${value.substring(start, end)}*`,
-			value.substr(end),
-		);
+		const result = ''.concat(value.substring(0, start), `*${value.substring(start, end)}*`, value.substr(end));
 
 		// update editor
 		this.markdown.setValue(result);
@@ -454,20 +458,11 @@ export class NgxMarkdownEditorComponent implements OnInit, OnDestroy, ControlVal
 
 		// manipulate strings
 		const lines = value.substring(start, end).split('\n');
-		const modifiedString = start === end ? [ '> ' ] : lines.reduce(
-			(resultLines, line) => [
-				...resultLines,
-				`> ${line}`,
-			],
-			[] as string[],
-		);
+		const modifiedString =
+			start === end ? ['> '] : lines.reduce((resultLines, line) => [...resultLines, `> ${line}`], [] as string[]);
 
 		// construct string
-		const result = ''.concat(
-			value.substring(0, start),
-			modifiedString.join('\n'),
-			value.substr(end),
-		);
+		const result = ''.concat(value.substring(0, start), modifiedString.join('\n'), value.substr(end));
 
 		// update editor
 		this.markdown.setValue(result);
@@ -508,20 +503,11 @@ export class NgxMarkdownEditorComponent implements OnInit, OnDestroy, ControlVal
 
 		// manipulate strings
 		const lines = value.substring(start, end).split('\n');
-		const modifiedString = start === end ? [ '* ' ] : lines.reduce(
-			(resultLines, line) => [
-				...resultLines,
-				`* ${line}`,
-			],
-			[] as string[],
-		);
+		const modifiedString =
+			start === end ? ['* '] : lines.reduce((resultLines, line) => [...resultLines, `* ${line}`], [] as string[]);
 
 		// construct string
-		const result = ''.concat(
-			value.substring(0, start),
-			modifiedString.join('\n'),
-			value.substr(end),
-		);
+		const result = ''.concat(value.substring(0, start), modifiedString.join('\n'), value.substr(end));
 
 		// update editor
 		this.markdown.setValue(result);
@@ -540,20 +526,13 @@ export class NgxMarkdownEditorComponent implements OnInit, OnDestroy, ControlVal
 
 		// manipulate strings
 		const lines = value.substring(start, end).split('\n');
-		const modifiedString = start === end ? [ '1. ' ] : lines.reduce(
-			(resultLines, line, index) => [
-				...resultLines,
-				`${index + 1}. ${line}`,
-			],
-			[] as string[],
-		);
+		const modifiedString =
+			start === end
+				? ['1. ']
+				: lines.reduce((resultLines, line, index) => [...resultLines, `${index + 1}. ${line}`], [] as string[]);
 
 		// construct string
-		const result = ''.concat(
-			value.substring(0, start),
-			modifiedString.join('\n'),
-			value.substr(end),
-		);
+		const result = ''.concat(value.substring(0, start), modifiedString.join('\n'), value.substr(end));
 
 		// update editor
 		this.markdown.setValue(result);
@@ -572,20 +551,13 @@ export class NgxMarkdownEditorComponent implements OnInit, OnDestroy, ControlVal
 
 		// manipulate strings
 		const lines = value.substring(start, end).split('\n');
-		const modifiedString = start === end ? [ '- [ ] ' ] : lines.reduce(
-			(resultLines, line) => [
-				...resultLines,
-				`- [ ] ${line}`,
-			],
-			[] as string[],
-		);
+		const modifiedString =
+			start === end
+				? ['- [ ] ']
+				: lines.reduce((resultLines, line) => [...resultLines, `- [ ] ${line}`], [] as string[]);
 
 		// construct string
-		const result = ''.concat(
-			value.substring(0, start),
-			modifiedString.join('\n'),
-			value.substr(end),
-		);
+		const result = ''.concat(value.substring(0, start), modifiedString.join('\n'), value.substr(end));
 
 		// update editor
 		this.markdown.setValue(result);
@@ -609,11 +581,7 @@ export class NgxMarkdownEditorComponent implements OnInit, OnDestroy, ControlVal
 			const value = this.markdown.value as string;
 
 			// construct string
-			const result = ''.concat(
-				value.substring(0, start - skipBackwardLength),
-				content,
-				value.substr(end),
-			);
+			const result = ''.concat(value.substring(0, start - skipBackwardLength), content, value.substr(end));
 
 			// update editor
 			this.markdown.setValue(result);
@@ -634,11 +602,13 @@ export class NgxMarkdownEditorComponent implements OnInit, OnDestroy, ControlVal
 	private saveUndo(): void {
 		if (this.textareaElement && this.historySteps > 0) {
 			// save editor state
-			this.undoStack.unshift(new EditorHistory(
-				this.markdown.value,
-				this.textareaElement.nativeElement.selectionStart,
-				this.textareaElement.nativeElement.selectionEnd,
-			));
+			this.undoStack.unshift(
+				new EditorHistory(
+					this.markdown.value,
+					this.textareaElement.nativeElement.selectionStart,
+					this.textareaElement.nativeElement.selectionEnd,
+				),
+			);
 
 			if (this.undoStack.length > this.historySteps) {
 				for (let i = 0; i < this.undoStack.length - this.historySteps; i++) {
@@ -655,7 +625,7 @@ export class NgxMarkdownEditorComponent implements OnInit, OnDestroy, ControlVal
 			// move the first element from undo to redo
 			this.redoStack.unshift(this.undoStack.shift());
 			// restore editor state
-			const [ current ] = this.undoStack;
+			const [current] = this.undoStack;
 
 			if (current) {
 				this.isPerformingUndoRedo = true;
@@ -671,7 +641,7 @@ export class NgxMarkdownEditorComponent implements OnInit, OnDestroy, ControlVal
 			// move the first element from redo to undo
 			this.undoStack.unshift(this.redoStack.shift());
 			// restore editor state
-			const [ current ] = this.undoStack;
+			const [current] = this.undoStack;
 
 			if (current) {
 				this.isPerformingUndoRedo = true;
@@ -681,5 +651,4 @@ export class NgxMarkdownEditorComponent implements OnInit, OnDestroy, ControlVal
 			}
 		}
 	}
-
 }

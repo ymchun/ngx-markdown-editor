@@ -1,9 +1,20 @@
 import { FlexibleConnectedPositionStrategy, Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { ComponentRef, Directive, ElementRef, EventEmitter, HostListener, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import {
+	ComponentRef,
+	Directive,
+	ElementRef,
+	EventEmitter,
+	HostListener,
+	Input,
+	OnChanges,
+	OnDestroy,
+	OnInit,
+	Output,
+	SimpleChanges,
+} from '@angular/core';
 import { Subject, Subscription, timer } from 'rxjs';
 import { debounce } from 'rxjs/operators';
-
 import { CursorPosition } from '../interfaces/cursor-position';
 import { MentionConfig } from '../interfaces/mention-config';
 import { MentionsResult } from '../interfaces/mentions-result';
@@ -36,10 +47,7 @@ export class NgxMarkdownMentionDirective implements OnInit, OnDestroy, OnChanges
 	private searchTermDebounceSubscription: Subscription;
 	private searchTermDebounce: Subject<void> = new Subject();
 
-	public constructor(
-		private elementRef: ElementRef<HTMLTextAreaElement>,
-		private overlay: Overlay,
-	) {}
+	public constructor(private elementRef: ElementRef<HTMLTextAreaElement>, private overlay: Overlay) {}
 
 	@HostListener('input', ['$event'])
 	public onInput(event: InputEvent): void {
@@ -82,7 +90,10 @@ export class NgxMarkdownMentionDirective implements OnInit, OnDestroy, OnChanges
 
 		// when delete text backward (using backspace)
 		if (this.menuOpened && event.inputType === 'deleteContentBackward') {
-			if (this.elementRef.nativeElement.value && this.elementRef.nativeElement.selectionEnd >= this.triggerCharPosition) {
+			if (
+				this.elementRef.nativeElement.value &&
+				this.elementRef.nativeElement.selectionEnd >= this.triggerCharPosition
+			) {
 				// update and emit search term
 				this.emitSearchTerm();
 			} else {
@@ -90,18 +101,15 @@ export class NgxMarkdownMentionDirective implements OnInit, OnDestroy, OnChanges
 				this.closeMenu();
 			}
 		}
-
 	}
 
 	public ngOnInit(): void {
-		this.searchTermDebounceSubscription = this.searchTermDebounce
-			.pipe(debounce(() => timer(200)))
-			.subscribe(() => {
-				this.searchTerm.emit({
-					term: this.triggerTerm,
-					trigger: this.triggerChar,
-				});
+		this.searchTermDebounceSubscription = this.searchTermDebounce.pipe(debounce(() => timer(200))).subscribe(() => {
+			this.searchTerm.emit({
+				term: this.triggerTerm,
+				trigger: this.triggerChar,
 			});
+		});
 	}
 
 	public ngOnDestroy(): void {
@@ -165,44 +173,41 @@ export class NgxMarkdownMentionDirective implements OnInit, OnDestroy, OnChanges
 
 			// subscribe to output
 
-			this.countSubscription = this.componentRef.instance.count.subscribe(
-				(count: number) => {
-					// set count
-					this.itemCount = count;
-					// update menu position
-					this.updateMenuPosition();
-				},
-			);
+			this.countSubscription = this.componentRef.instance.count.subscribe((count: number) => {
+				// set count
+				this.itemCount = count;
+				// update menu position
+				this.updateMenuPosition();
+			});
 
 			this.destroySubscription = this.componentRef.instance.destroy.subscribe(() => this.closeMenu());
 
-			this.selectSubscription = this.componentRef.instance.selected.subscribe(
-				(item: string) => {
-					// insert content
-					this.searchResult.emit({
-						result: config.transform ? config.transform(item) : item,
-						term: this.triggerTerm,
-					});
-					// close menu
-					this.closeMenu();
-				},
-			);
+			this.selectSubscription = this.componentRef.instance.selected.subscribe((item: string) => {
+				// insert content
+				this.searchResult.emit({
+					result: config.transform ? config.transform(item) : item,
+					term: this.triggerTerm,
+				});
+				// close menu
+				this.closeMenu();
+			});
 		}
-
 	}
 
 	private getPositionStrategy(x: number, y: number): FlexibleConnectedPositionStrategy {
 		return this.overlay
 			.position()
 			.flexibleConnectedTo(this.elementRef.nativeElement)
-			.withPositions([{
-				offsetX: x,
-				offsetY: y,
-				originX: 'start',
-				originY: 'top',
-				overlayX: 'start',
-				overlayY: 'top',
-			}]);
+			.withPositions([
+				{
+					offsetX: x,
+					offsetY: y,
+					originX: 'start',
+					originY: 'top',
+					overlayX: 'start',
+					overlayY: 'top',
+				},
+			]);
 	}
 
 	private updateMenuPosition(): void {
@@ -260,5 +265,4 @@ export class NgxMarkdownMentionDirective implements OnInit, OnDestroy, OnChanges
 			this.overlayRef = undefined;
 		}
 	}
-
 }

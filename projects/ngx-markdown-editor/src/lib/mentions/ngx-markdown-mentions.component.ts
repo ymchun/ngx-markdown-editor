@@ -2,7 +2,7 @@ import { Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output
 import { Observable, Subscription } from 'rxjs';
 
 @Component({
-	styleUrls: [ './ngx-markdown-mentions.scss' ],
+	styleUrls: ['./ngx-markdown-mentions.scss'],
 	templateUrl: './ngx-markdown-mentions.view.html',
 })
 export class NgxMarkdownMentionsComponent implements OnInit, OnDestroy {
@@ -25,61 +25,59 @@ export class NgxMarkdownMentionsComponent implements OnInit, OnDestroy {
 		const key = event.key.toLowerCase();
 		// check action
 		switch (key) {
-		case 'enter': {
-			if (this.items.length > 0) {
-				this.onClick(this.activeIndex);
-				// stop event
-				event.preventDefault();
-				event.stopPropagation();
-			}
-			break;
-		}
-		case 'escape': {
-			this.destroy.emit();
-			// stop event
-			event.preventDefault();
-			event.stopPropagation();
-			break;
-		}
-		case 'arrowdown': {
-			if (this.items.length > 0) {
-				// increase index
-				this.activeIndex++;
-				// check overflow
-				if (this.activeIndex > this.items.length - 1) {
-					this.activeIndex = 0;
+			case 'enter': {
+				if (this.items.length > 0) {
+					this.onClick(this.activeIndex);
+					// stop event
+					event.preventDefault();
+					event.stopPropagation();
 				}
+				break;
+			}
+			case 'escape': {
+				this.destroy.emit();
 				// stop event
 				event.preventDefault();
 				event.stopPropagation();
+				break;
 			}
-			break;
-		}
-		case 'arrowup': {
-			if (this.items.length > 0) {
-				// increase index
-				this.activeIndex--;
-				// check overflow
-				if (this.activeIndex < 0) {
-					this.activeIndex = this.items.length - 1;
+			case 'arrowdown': {
+				if (this.items.length > 0) {
+					// increase index
+					this.activeIndex++;
+					// check overflow
+					if (this.activeIndex > this.items.length - 1) {
+						this.activeIndex = 0;
+					}
+					// stop event
+					event.preventDefault();
+					event.stopPropagation();
 				}
-				// stop event
-				event.preventDefault();
-				event.stopPropagation();
+				break;
 			}
-			break;
-		}
+			case 'arrowup': {
+				if (this.items.length > 0) {
+					// increase index
+					this.activeIndex--;
+					// check overflow
+					if (this.activeIndex < 0) {
+						this.activeIndex = this.items.length - 1;
+					}
+					// stop event
+					event.preventDefault();
+					event.stopPropagation();
+				}
+				break;
+			}
 		}
 	}
 
 	public ngOnInit(): void {
-		this.subscription = this.data.subscribe(
-			(items) => {
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-				this.items = [ ...items ];
-				this.count.emit(this.items.length);
-			},
-		);
+		this.subscription = this.data.subscribe((items) => {
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+			this.items = [...items];
+			this.count.emit(this.items.length);
+		});
 	}
 
 	public ngOnDestroy(): void {
@@ -95,5 +93,4 @@ export class NgxMarkdownMentionsComponent implements OnInit, OnDestroy {
 	public onClick(index: number): void {
 		this.selected.emit(this.items[index]);
 	}
-
 }

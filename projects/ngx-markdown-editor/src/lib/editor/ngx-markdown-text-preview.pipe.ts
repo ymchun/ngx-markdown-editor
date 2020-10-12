@@ -1,15 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
-
 import { NgxMarkdownService } from './ngx-markdown.service';
 
 @Pipe({
 	name: 'ngxMarkdownTextPreview',
 })
 export class NgxMarkdownTextPreviewPipe implements PipeTransform {
-
-	public constructor(
-		private ngxMarkdownService: NgxMarkdownService,
-	) {}
+	public constructor(private ngxMarkdownService: NgxMarkdownService) {}
 
 	public transform(markdown: string): string {
 		if (markdown) {
@@ -22,7 +18,7 @@ export class NgxMarkdownTextPreviewPipe implements PipeTransform {
 	}
 
 	private filterHTML(html: string): string {
-		const dom = (new DOMParser()).parseFromString(html, 'text/html');
+		const dom = new DOMParser().parseFromString(html, 'text/html');
 
 		// remove images
 		const imgTags = Array.from<HTMLImageElement>(dom.querySelectorAll('img'));
@@ -31,6 +27,6 @@ export class NgxMarkdownTextPreviewPipe implements PipeTransform {
 			imgTag.remove();
 		}
 
-		return (new XMLSerializer()).serializeToString(dom);
+		return new XMLSerializer().serializeToString(dom);
 	}
 }

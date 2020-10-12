@@ -1,35 +1,58 @@
 <div class="ngx-markdown-editor" [class.ngx-markdown-editor--fullscreen]="isFullscreen">
-
 	<div class="ngx-markdown-editor__toolbar">
-
 		<div class="ngx-markdown-editor__view-mode">
-			<button mat-button [disabled]="isDisabled" [color]="isWriteMode ? 'primary' : ''" (click)="isWriteMode = true">Write</button>
-			<button mat-button [disabled]="isDisabled" [color]="isWriteMode ? '' : 'primary'" (click)="isWriteMode = false">Preview</button>
+			<button
+				mat-button
+				[disabled]="isDisabled"
+				[color]="isWriteMode ? 'primary' : ''"
+				(click)="isWriteMode = true"
+			>
+				Write
+			</button>
+			<button
+				mat-button
+				[disabled]="isDisabled"
+				[color]="isWriteMode ? '' : 'primary'"
+				(click)="isWriteMode = false"
+			>
+				Preview
+			</button>
 		</div>
 
 		<div class="ngx-markdown-editor__spacer"></div>
 
 		<div class="ngx-markdown-editor__format" *ngIf="isWriteMode">
 			<button mat-icon-button [disabled]="isDisabled" (click)="insertLink()"><mat-icon>link</mat-icon></button>
-			<button mat-icon-button [disabled]="isDisabled" (click)="insertPhoto()"><mat-icon>insert_photo</mat-icon></button>
+			<button mat-icon-button [disabled]="isDisabled" (click)="insertPhoto()">
+				<mat-icon>insert_photo</mat-icon>
+			</button>
 			<button mat-icon-button [disabled]="isDisabled" (click)="bold()"><mat-icon>format_bold</mat-icon></button>
-			<button mat-icon-button [disabled]="isDisabled" (click)="italic()"><mat-icon>format_italic</mat-icon></button>
+			<button mat-icon-button [disabled]="isDisabled" (click)="italic()">
+				<mat-icon>format_italic</mat-icon>
+			</button>
 			<button mat-icon-button [disabled]="isDisabled" (click)="quote()"><mat-icon>format_quote</mat-icon></button>
 			<button mat-icon-button [disabled]="isDisabled" (click)="code()"><mat-icon>code</mat-icon></button>
-			<button mat-icon-button [disabled]="isDisabled" (click)="bulletedList()"><mat-icon>format_list_bulleted</mat-icon></button>
-			<button mat-icon-button [disabled]="isDisabled" (click)="numberedList()"><mat-icon>format_list_numbered</mat-icon></button>
-			<button mat-icon-button [disabled]="isDisabled" (click)="taskList()"><mat-icon>assignment_turned_in</mat-icon></button>
-			<button mat-icon-button [disabled]="isDisabled" (click)="fullscreen()"><mat-icon>fullscreen</mat-icon></button>
+			<button mat-icon-button [disabled]="isDisabled" (click)="bulletedList()">
+				<mat-icon>format_list_bulleted</mat-icon>
+			</button>
+			<button mat-icon-button [disabled]="isDisabled" (click)="numberedList()">
+				<mat-icon>format_list_numbered</mat-icon>
+			</button>
+			<button mat-icon-button [disabled]="isDisabled" (click)="taskList()">
+				<mat-icon>assignment_turned_in</mat-icon>
+			</button>
+			<button mat-icon-button [disabled]="isDisabled" (click)="fullscreen()">
+				<mat-icon>fullscreen</mat-icon>
+			</button>
 		</div>
-
 	</div>
 
 	<div #editingContainerElement class="ngx-markdown-editor__editing" [style.height]="editorHeight">
-
 		<ng-container *ngIf="isWriteMode; then editorView; else previewView"></ng-container>
 
 		<ng-template #editorView>
-			<textarea #textareaElement
+			<textarea
+				#textareaElement
 				(click)="updateCursor()"
 				(drop)="onDrop($event)"
 				(input)="onInput()"
@@ -42,14 +65,16 @@
 				[ngxMarkdownMention]="mentionConfigs"
 				[placeholder]="placeholder"
 			></textarea>
-			<pre #shadowEditorElement>{{shadowContentUpper}}<span class="cursor" #shadowCursorElement></span>{{shadowContentLower}}</pre>
+			<pre #shadowEditorElement>
+				{{shadowContentUpper}}
+				<span class="cursor" #shadowCursorElement></span>
+				{{shadowContentLower}}
+			</pre>
 		</ng-template>
 
 		<ng-template #previewView>
 			<iframe ngxMarkdownViewer [markdown]="markdown.value"></iframe>
 		</ng-template>
-
 	</div>
-
 </div>
 <div *ngIf="resize && isWriteMode" class="resize-handle" (mousedown)="onResizeStart($event)"></div>

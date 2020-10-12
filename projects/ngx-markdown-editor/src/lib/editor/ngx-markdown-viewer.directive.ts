@@ -1,6 +1,15 @@
-import { Directive, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import {
+	Directive,
+	ElementRef,
+	EventEmitter,
+	HostBinding,
+	HostListener,
+	Input,
+	OnChanges,
+	Output,
+	SimpleChanges,
+} from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-
 import { NgxMarkdownService } from './ngx-markdown.service';
 
 @Directive({
@@ -11,7 +20,7 @@ export class NgxMarkdownViewerDirective implements OnChanges {
 	@Input() public styles: string;
 	@Input() public getTagUrl: (tag: string) => string;
 	@Output() private mentions = new EventEmitter<string>(true);
-	@Output() private mentionWithIds = new EventEmitter<[ string, string ]>(true);
+	@Output() private mentionWithIds = new EventEmitter<[string, string]>(true);
 	@Output() private ready = new EventEmitter<boolean>(true);
 	@Output() private tags = new EventEmitter<string>(true);
 	@Output() private taskLists = new EventEmitter<string>(true);
@@ -139,7 +148,7 @@ export class NgxMarkdownViewerDirective implements OnChanges {
 					const name = mention.dataset.mentionName;
 
 					if (id) {
-						this.mentionWithIds.emit([ id, name ]);
+						this.mentionWithIds.emit([id, name]);
 					} else {
 						this.mentions.emit(name);
 					}
@@ -169,11 +178,18 @@ export class NgxMarkdownViewerDirective implements OnChanges {
 			taskListItems.forEach((taskListItem, index) => {
 				taskListItem.addEventListener('click', (event) => {
 					if (this.markdown) {
-						const normalized = [ '* [ ] ', '* [x] ', '- [x] ' ].reduce((str, deli) => str.split(deli).join('- [ ] '), this.markdown);
-						const position = (new Array(index).fill(0) as number[]).reduce((pos) => normalized.indexOf('- [ ] ', pos + 1), normalized.indexOf('- [ ] '));
-						const result = this.markdown.substring(0, position + 3)
-						+ (this.markdown.charAt(position + 3) === ' ' ? 'x' : ' ')
-						+ this.markdown.substring(position + 4);
+						const normalized = ['* [ ] ', '* [x] ', '- [x] '].reduce(
+							(str, deli) => str.split(deli).join('- [ ] '),
+							this.markdown,
+						);
+						const position = (new Array(index).fill(0) as number[]).reduce(
+							(pos) => normalized.indexOf('- [ ] ', pos + 1),
+							normalized.indexOf('- [ ] '),
+						);
+						const result =
+							this.markdown.substring(0, position + 3) +
+							(this.markdown.charAt(position + 3) === ' ' ? 'x' : ' ') +
+							this.markdown.substring(position + 4);
 
 						this.taskLists.emit(result);
 					}
@@ -195,7 +211,8 @@ export class NgxMarkdownViewerDirective implements OnChanges {
 			// additional styles
 			const additionalStyles = this.styles ? `<style type="text/css">${this.styles}</style>` : '';
 			// parse markdown
-			const html = this.iframeStyle + additionalStyles + this.ngxMarkdownService.parse(changes.markdown.currentValue);
+			const html =
+				this.iframeStyle + additionalStyles + this.ngxMarkdownService.parse(changes.markdown.currentValue);
 			// bypass html security check
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			const secureHTML: any = this.sanitizer.bypassSecurityTrustHtml(html);
@@ -229,7 +246,7 @@ export class NgxMarkdownViewerDirective implements OnChanges {
 
 	private filterHTML(html: string): string {
 		// parse HTML
-		const dom = (new DOMParser()).parseFromString(html, 'text/html');
+		const dom = new DOMParser().parseFromString(html, 'text/html');
 
 		// hide excess content
 		const htmlTag = dom.querySelector('html');
@@ -256,7 +273,6 @@ export class NgxMarkdownViewerDirective implements OnChanges {
 		}
 
 		// convert back to string
-		return (new XMLSerializer()).serializeToString(dom);
+		return new XMLSerializer().serializeToString(dom);
 	}
-
 }

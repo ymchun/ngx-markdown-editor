@@ -104,9 +104,10 @@ $screen-size-breakpoint: 600px;
 			width: calc(100% - 20px) !important;
 		}
 
-		textarea, pre {
+		textarea,
+		pre {
 			border: none;
-			font-family: "Lucida Console", Monaco, monospace;
+			font-family: 'Lucida Console', Monaco, monospace;
 			font-size: 14px;
 			line-height: 1.4;
 			margin: 0;
@@ -144,9 +145,7 @@ $screen-size-breakpoint: 600px;
 				border: 1px transparent solid;
 			}
 		}
-
 	}
-
 }
 
 .resize-handle {

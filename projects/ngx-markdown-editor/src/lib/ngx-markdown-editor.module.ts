@@ -5,7 +5,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-
 import { NgxMarkdownEditorComponent } from './editor/ngx-markdown-editor.component';
 import { NgxMarkdownTextPreviewPipe } from './editor/ngx-markdown-text-preview.pipe';
 import { NgxMarkdownViewerDirective } from './editor/ngx-markdown-viewer.directive';
@@ -21,11 +20,7 @@ import { NgxMarkdownMentionsComponent } from './mentions/ngx-markdown-mentions.c
 		NgxMarkdownTextPreviewPipe,
 		NgxMarkdownViewerDirective,
 	],
-	exports: [
-		NgxMarkdownEditorComponent,
-		NgxMarkdownTextPreviewPipe,
-		NgxMarkdownViewerDirective,
-	],
+	exports: [NgxMarkdownEditorComponent, NgxMarkdownTextPreviewPipe, NgxMarkdownViewerDirective],
 	imports: [
 		CommonModule,
 		FormsModule,
@@ -35,8 +30,6 @@ import { NgxMarkdownMentionsComponent } from './mentions/ngx-markdown-mentions.c
 		ReactiveFormsModule,
 		TextFieldModule,
 	],
-	providers: [
-		NgxMarkdownService,
-	],
+	providers: [NgxMarkdownService],
 })
 export class NgxMarkdownEditorModule {}

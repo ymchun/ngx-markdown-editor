@@ -13,10 +13,7 @@ export const MarkdownItTitle: MarkdownIt.PluginSimple = (md) => {
 			// if nothing match
 			!matches ||
 			// check if matched string is start of input
-			(
-				matches.index > 0 &&
-				matches.input[matches.index - 1]
-			)
+			(matches.index > 0 && matches.input[matches.index - 1])
 		) {
 			return false;
 		}

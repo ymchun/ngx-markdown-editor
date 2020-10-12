@@ -13,16 +13,9 @@ export const MarkdownItMentions: MarkdownIt.PluginSimple = (md) => {
 			// if nothing match
 			!matches ||
 			// check if matched string is start of input
-			(
-				matches.index > 0 &&
-				matches.input[matches.index - 1]
-			) ||
+			(matches.index > 0 && matches.input[matches.index - 1]) ||
 			// if not separated by space or start of line
-			(
-				state.pos > 0 &&
-				state.src[state.pos - 1] !== ' ' &&
-				state.src[state.pos - 1] !== '\n'
-			)
+			(state.pos > 0 && state.src[state.pos - 1] !== ' ' && state.src[state.pos - 1] !== '\n')
 		) {
 			return false;
 		}
