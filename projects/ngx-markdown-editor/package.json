@@ -17,12 +17,12 @@
     "url": "https://github.com/ymchun"
   },
   "peerDependencies": {
-    "@angular/cdk": "^10.2.5",
-    "@angular/common": "^10.2.0",
-    "@angular/core": "^10.2.0",
-    "@angular/forms": "^10.2.0",
-    "@angular/material": "^10.2.5",
-    "markdown-it": "^12.0.1",
+    "@angular/cdk": "^11.1.0",
+    "@angular/common": "^11.1.0",
+    "@angular/core": "^11.1.0",
+    "@angular/forms": "^11.1.0",
+    "@angular/material": "^11.1.0",
+    "markdown-it": "^12.0.4",
     "markdown-it-task-lists": "^2.1.1"
   }
 }
