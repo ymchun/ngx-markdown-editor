@@ -1,6 +1,6 @@
-import * as MarkdownIt from 'markdown-it';
-import * as ParserInline from 'markdown-it/lib/parser_inline';
-import * as Renderer from 'markdown-it/lib/renderer';
+import MarkdownIt from 'markdown-it';
+import ParserInline from 'markdown-it/lib/parser_inline';
+import Renderer from 'markdown-it/lib/renderer';
 
 export const MarkdownItHashTag: MarkdownIt.PluginSimple = (md) => {
 	const parserId = 'hash-tag';

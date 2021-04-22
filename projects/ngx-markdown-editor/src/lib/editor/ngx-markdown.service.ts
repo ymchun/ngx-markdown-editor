@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import * as MarkdownIt from 'markdown-it';
-import * as TaskList from 'markdown-it-task-lists';
+import MarkdownIt from 'markdown-it';
+import TaskList from 'markdown-it-task-lists';
 import { MarkdownItHashTag } from '../markdown-it-plugins/markdown-it-hash-tag';
 import { MarkdownItMentionWithId } from '../markdown-it-plugins/markdown-it-mention-with-id';
 import { MarkdownItMentions } from '../markdown-it-plugins/markdown-it-mentions';
