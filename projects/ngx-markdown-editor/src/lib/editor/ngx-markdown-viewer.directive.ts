@@ -135,9 +135,6 @@ export class NgxMarkdownViewerDirective implements OnChanges {
 
 	@HostListener('load')
 	public async onLoad(): Promise<void> {
-		// update height
-		await this.updateSize();
-
 		// search for mentions
 		const mentions = this.getContentDocument().querySelectorAll('[data-mention-name]');
 
@@ -201,6 +198,9 @@ export class NgxMarkdownViewerDirective implements OnChanges {
 
 		// notify done
 		this.ready.emit(true);
+
+		// update height
+		await this.updateSize();
 	}
 
 	public ngOnChanges(changes: SimpleChanges): void {
@@ -221,7 +221,7 @@ export class NgxMarkdownViewerDirective implements OnChanges {
 			const filteredHTML = this.filterHTML(secureHTML.changingThisBreaksApplicationSecurity);
 			// write html
 			this.getContentDocument().open();
-			this.getContentDocument().write(filteredHTML);
+			this.getContentDocument().write(`<div>${filteredHTML}</div>`);
 			this.getContentDocument().close();
 		}
 	}
@@ -230,15 +230,11 @@ export class NgxMarkdownViewerDirective implements OnChanges {
 		return new Promise((resolve: () => void) => {
 			// set height
 			setTimeout(() => {
-				// get height
-				const htmlHeight = this.getContentDocument().querySelector('html').scrollHeight;
-				const bodyHeight = this.getContentDocument().querySelector('body').scrollHeight;
-				// get width
-				const htmlWidth = this.getContentDocument().querySelector('html').scrollWidth;
-				const bodyWidth = this.getContentDocument().querySelector('body').scrollWidth;
+				// get dimension
+				const rect = this.getContentDocument().querySelector('body > div').getBoundingClientRect();
 				// update iframe size
-				this.iframeHeight = `${Math.max(htmlHeight, bodyHeight)}px`;
-				this.iframeWidth = `${Math.max(htmlWidth, bodyWidth)}px`;
+				this.iframeHeight = `${rect.height}px`;
+				this.iframeWidth = `${rect.width}px`;
 				resolve();
 			});
 		});
