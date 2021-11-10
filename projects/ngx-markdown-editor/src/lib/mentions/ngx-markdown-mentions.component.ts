@@ -91,6 +91,7 @@ export class NgxMarkdownMentionsComponent implements OnInit, OnDestroy {
 	}
 
 	public onClick(index: number): void {
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 		this.selected.emit(this.items[index]);
 	}
 }

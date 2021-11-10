@@ -212,12 +212,13 @@ export class NgxMarkdownViewerDirective implements OnChanges {
 			const additionalStyles = this.styles ? `<style type="text/css">${this.styles}</style>` : '';
 			// parse markdown
 			const html =
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 				this.iframeStyle + additionalStyles + this.ngxMarkdownService.parse(changes.markdown.currentValue);
 			// bypass html security check
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			const secureHTML: any = this.sanitizer.bypassSecurityTrustHtml(html);
 			// filter html content
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
 			const filteredHTML = this.filterHTML(secureHTML.changingThisBreaksApplicationSecurity);
 			// write html
 			this.getContentDocument().open();

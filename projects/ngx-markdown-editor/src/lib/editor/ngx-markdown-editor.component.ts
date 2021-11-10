@@ -238,7 +238,9 @@ export class NgxMarkdownEditorComponent implements OnInit, OnDestroy, ControlVal
 				const rect = this.editingContainerElement.nativeElement.getBoundingClientRect();
 				this.resizeScrollStart = rect.y;
 			}
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 			document.documentElement.addEventListener('mousemove', window['editorResizing'], false);
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 			document.documentElement.addEventListener('mouseup', window['editorResizeEnd'], false);
 		}
 	}
@@ -253,7 +255,9 @@ export class NgxMarkdownEditorComponent implements OnInit, OnDestroy, ControlVal
 	}
 
 	public onResizeEnd(): void {
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 		document.documentElement.removeEventListener('mousemove', window['editorResizing'], false);
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 		document.documentElement.removeEventListener('mouseup', window['editorResizeEnd'], false);
 	}
 
@@ -604,6 +608,7 @@ export class NgxMarkdownEditorComponent implements OnInit, OnDestroy, ControlVal
 			// save editor state
 			this.undoStack.unshift(
 				new EditorHistory(
+					// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 					this.markdown.value,
 					this.textareaElement.nativeElement.selectionStart,
 					this.textareaElement.nativeElement.selectionEnd,

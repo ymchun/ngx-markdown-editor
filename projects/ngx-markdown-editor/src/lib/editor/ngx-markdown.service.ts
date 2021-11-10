@@ -22,6 +22,7 @@ export class NgxMarkdownService {
 		this.markdownIt.use(MarkdownItMentions);
 		this.markdownIt.use(MarkdownItMentionWithId);
 		this.markdownIt.use(MarkdownItTitle);
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 		this.markdownIt.use(TaskList, { enabled: true });
 	}
 
